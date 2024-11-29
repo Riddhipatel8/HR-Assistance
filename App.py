@@ -45,22 +45,79 @@ def generate_answer(user_input, messages):
     response = retrieval_chain.invoke({"input": user_input, "messages": messages})
     return response['answer']  # Return the answer from the response
  
+# Set page configuration
 st.set_page_config(page_title="Chat Bot", page_icon="robot")
-st.title("chatbot")
+st.title("Chatbot")
  
+# Inject custom CSS for styling the chat, dynamically adjust based on theme
+st.markdown(f"""
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+        /* Apply custom font globally */
+        body {{
+            font-family: 'Roboto', sans-serif;
+        }}
+ 
+        /* Custom styling for user input */
+        .user-message {{
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #3399FF;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: inline-block; /* Shrinks background to text size */
+            max-width: 80%; /* Prevents the message from stretching too wide */
+            word-wrap: break-word; /* Ensures long words wrap to the next line */
+            float: right; /* Align user messages to the right */
+        }}
+ 
+        /* Custom styling for bot response */
+        .bot-message {{
+            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            color: #484848;
+            background-color: #D8D8D8;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: inline-block; /* Shrinks background to text size */
+            max-width: 80%; /* Prevents the message from stretching too wide */
+            word-wrap: break-word; /* Ensures long words wrap to the next line */
+            float: left; /* Align bot messages to the left */
+        }}
+ 
+        /* Clear floats after messages */
+        .chat-container {{
+            overflow: hidden;
+        }}
+    </style>
+""", unsafe_allow_html=True)
+ 
+# Initialize session state for messages if it's not already initialized
 if 'messages' not in st.session_state:
     st.session_state.messages = []
+ 
+# Create a container for chat messages to manage floats
+st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+ 
+# Display the chat history
 for i, msg in enumerate(st.session_state.messages):
     if i % 2 == 0:
-        message(msg, is_user=True)
+        st.markdown(f'<div class="user-message">{msg}</div>', unsafe_allow_html=True)  # User's message
     else:
-        message(msg, is_user=False)
+        st.markdown(f'<div class="bot-message">{msg}</div>', unsafe_allow_html=True)  # Bot's message
  
-user_query = st.chat_input("your message")
+st.markdown('</div>', unsafe_allow_html=True)
+ 
+# Input for user query
+user_query = st.chat_input("Your message")
+ 
+# If the user inputs a query, generate and display the response
 if user_query and isinstance(user_query, str):
-    message(user_query, is_user=True)
-    st.session_state.messages.append(user_query)
-    response = generate_answer(user_query, st.session_state.messages)
-    message(response, is_user=False)
- 
-    st.session_state.messages.append(response)
+    st.markdown(f'<div class="user-message">{user_query}</div>', unsafe_allow_html=True)  # Display user's message
+    st.session_state.messages.append(user_query)  # Add user's message to session state
+    response = generate_answer(user_query, st.session_state.messages)  # Generate response
+    st.markdown(f'<div class="bot-message">{response}</div>', unsafe_allow_html=True)  # Display bot's response
+    st.session_state.messages.append(response)  # Add bot's response to session state
