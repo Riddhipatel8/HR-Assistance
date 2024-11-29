@@ -90,20 +90,20 @@ if 'messages' not in st.session_state:
 
 for i, msg in enumerate(st.session_state.messages):
     if i % 2 == 0:
-        # Display user message with custom class
-        message(msg, is_user=True, key=f"user_{i}", custom_css="user-message")
+        # Manually inject HTML for user messages
+        st.markdown(f'<div class="user-message">{msg}</div>', unsafe_allow_html=True)
     else:
-        # Display bot response with custom class
-        message(msg, is_user=False, key=f"bot_{i}", custom_css="bot-message")
+        # Manually inject HTML for bot responses
+        st.markdown(f'<div class="bot-message">{msg}</div>', unsafe_allow_html=True)
 
 # Get user input and generate the response
 user_query = st.chat_input("Your message")
 if user_query and isinstance(user_query, str):
-    # Display user input with custom class
-    message(user_query, is_user=True, key=f"user_input", custom_css="user-message")  
+    # Display user input using custom HTML
+    st.markdown(f'<div class="user-message">{user_query}</div>', unsafe_allow_html=True)
     st.session_state.messages.append(user_query)
     response = generate_answer(user_query, st.session_state.messages)
     
-    # Display bot response with custom class
-    message(response, is_user=False, key=f"bot_response", custom_css="bot-message")  
+    # Display bot response using custom HTML
+    st.markdown(f'<div class="bot-message">{response}</div>', unsafe_allow_html=True)
     st.session_state.messages.append(response)
