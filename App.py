@@ -1,5 +1,4 @@
 from langchain_community.vectorstores import FAISS
-import gradio as gr
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from dotenv import load_dotenv
