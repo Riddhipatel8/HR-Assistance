@@ -1,4 +1,4 @@
-import requests
+import httpx
 from langchain_community.vectorstores import FAISS
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -12,24 +12,18 @@ from streamlit_chat import message
 from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
 
-# Disable proxies by using requests session
-session = requests.Session()
-session.proxies = {}  # Disable proxies
-
-# If using HTTP client inside the Groq or langchain_groq, ensure it uses the modified session
-# For example, passing the session to the HTTP client in the library (this might vary depending on implementation)
-# Check if there's a way to pass the session to the ChatGroq or other parts where the proxy is configured.
+# Create an httpx client with disabled proxies
+client = httpx.Client(proxies={})
 
 load_dotenv()
 
-# You can also pass the session explicitly to the client initialization, 
-# if the Groq client accepts an http_client argument.
+# Initialize the LLM with the httpx client
 groq_api_key = os.getenv('GROQ_API_KEY')
 
-# Ensure that the HTTP client is set to the session where proxies are disabled
+# Pass the httpx client to the ChatGroq model
 llm = ChatGroq(groq_api_key=groq_api_key, 
               model_name="llama3-8b-8192", 
-              http_client=session)
+              http_client=client)
 
 # Prompt Template for model
 from langchain_core.prompts import ChatPromptTemplate
