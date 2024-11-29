@@ -11,88 +11,57 @@ from langchain_community.vectorstores import FAISS
 from streamlit_chat import message
 from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
-
+ 
 # Create an httpx client with disabled proxies
 client = httpx.Client(proxies={})
-
+ 
 load_dotenv()
-
+ 
 # Initialize the LLM with the httpx client
 groq_api_key = os.getenv('GROQ_API_KEY')
-
+ 
 # Pass the httpx client to the ChatGroq model
 llm = ChatGroq(groq_api_key=groq_api_key, 
               model_name="llama3-8b-8192", 
               http_client=client)
-
+ 
 # Prompt Template for model
 from langchain_core.prompts import ChatPromptTemplate
-
-prompt = ChatPromptTemplate.from_messages([ 
+ 
+prompt = ChatPromptTemplate.from_messages([
     ("system", " Answer the user's question based on the context: {context} and keep the answers concise"),
     MessagesPlaceholder(variable_name="messages"),
     ("human", "{input}")
 ])
-
+ 
 document_chain = create_stuff_documents_chain(llm, prompt)
-
+ 
 # Retrieving data from the store
 vector_store = FAISS.load_local("faiss_index", HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5"), allow_dangerous_deserialization=True)
 retriever = vector_store.as_retriever()
-
 retrieval_chain = create_retrieval_chain(retriever, document_chain)
-
+ 
 def generate_answer(user_input, messages):
     response = retrieval_chain.invoke({"input": user_input, "messages": messages})
     return response['answer']  # Return the answer from the response
-
-# Set custom page title and icon
+ 
 st.set_page_config(page_title="Chat Bot", page_icon="robot")
-st.title("Chatbot")
-
-# Add custom CSS for font styling, including Google Fonts and message styling
-st.markdown("""
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
-        
-        /* Apply custom font globally */
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
-        
-        /* Custom styling for user input */
-        .user-message {
-            font-family: 'Courier New', monospace
-        }
-        
-        /* Custom styling for bot response */
-        .bot-message {
-            font-family: 'Times New Roman', serif; 
-            background-color: #e6ffe6;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
-# Display messages in the chat
+st.title("chatbot")
+ 
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-
 for i, msg in enumerate(st.session_state.messages):
     if i % 2 == 0:
-        # Manually inject HTML for user messages
-        st.markdown(f'<div class="user-message">{msg}</div>', unsafe_allow_html=True)
+        message(msg, is_user=True)
     else:
-        # Manually inject HTML for bot responses
-        st.markdown(f'<div class="bot-message">{msg}</div>', unsafe_allow_html=True)
-
-# Get user input and generate the response
-user_query = st.chat_input("Your message")
+        message(msg, is_user=False)
+ 
+user_query = st.chat_input("your message")
 if user_query and isinstance(user_query, str):
-    # Display user input using custom HTML
-    st.markdown(f'<div class="user-message">{user_query}</div>', unsafe_allow_html=True)
+    message(user_query, is_user=True)
     st.session_state.messages.append(user_query)
+    st.markdown(user_query)
     response = generate_answer(user_query, st.session_state.messages)
-    
-    # Display bot response using custom HTML
-    st.markdown(f'<div class="bot-message">{response}</div>', unsafe_allow_html=True)
+    message(response, is_user=False)
+ 
     st.session_state.messages.append(response)
