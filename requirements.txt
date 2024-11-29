@@ -10,4 +10,4 @@ langchain_groq
 huggingface-hub
 streamlit
 streamlit-chat
-
+groq
