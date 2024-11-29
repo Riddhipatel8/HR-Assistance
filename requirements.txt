@@ -1,3 +1,4 @@
+torch
 langchain
 faiss-cpu
 langchain_community
