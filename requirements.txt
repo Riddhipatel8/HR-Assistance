@@ -1,0 +1,13 @@
+langchain
+faiss-cpu
+langchain_community
+transformers
+sentence_transformers
+pypdf
+langchain_huggingface
+huggingface_hub
+accelerate>=0.26.0
+bitsandbytes
+streamlit
+streamlit-chat
+ 
