@@ -7,13 +7,12 @@ import os
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
 from streamlit_chat import message
 from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
 
 # Create an httpx client with disabled proxies
-client = httpx.Client(proxies={})
+client = httpx.Client(proxies=None)
 
 load_dotenv()
 
@@ -29,7 +28,7 @@ llm = ChatGroq(groq_api_key=groq_api_key,
 from langchain_core.prompts import ChatPromptTemplate
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", " Answer the user's question based on the context: {context} and keep the answers concise"),
+    ("system", "Answer the user's question based on the context: {context} and keep the answers concise"),
     MessagesPlaceholder(variable_name="messages"),
     ("human", "{input}")
 ])
