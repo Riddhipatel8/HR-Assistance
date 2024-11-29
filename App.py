@@ -50,7 +50,7 @@ def generate_answer(user_input, messages):
 st.set_page_config(page_title="Chat Bot", page_icon="robot")
 st.title("Chatbot")
 
-# Add custom CSS for font styling, including Google Fonts
+# Add custom CSS for font styling, including Google Fonts and message styling
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
@@ -60,18 +60,26 @@ st.markdown("""
             font-family: 'Roboto', sans-serif;
         }
         
-        /* Style the user input text */
+        /* Custom styling for user input */
         .user-message {
             font-family: 'Courier New', monospace;
             font-size: 16px;
             color: #1e90ff;
+            background-color: #f0f8ff;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
         
-        /* Style the bot response text */
+        /* Custom styling for bot response */
         .bot-message {
             font-family: 'Times New Roman', serif;
             font-size: 16px;
             color: #32cd32;
+            background-color: #e6ffe6;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -82,15 +90,20 @@ if 'messages' not in st.session_state:
 
 for i, msg in enumerate(st.session_state.messages):
     if i % 2 == 0:
-        message(msg, is_user=True, key=f"user_{i}")  # Display user message
+        # Display user message with custom class
+        message(msg, is_user=True, key=f"user_{i}", custom_css="user-message")
     else:
-        message(msg, is_user=False, key=f"bot_{i}")  # Display bot response
+        # Display bot response with custom class
+        message(msg, is_user=False, key=f"bot_{i}", custom_css="bot-message")
 
 # Get user input and generate the response
 user_query = st.chat_input("Your message")
 if user_query and isinstance(user_query, str):
-    message(user_query, is_user=True, key=f"user_input")  # Display user input
+    # Display user input with custom class
+    message(user_query, is_user=True, key=f"user_input", custom_css="user-message")  
     st.session_state.messages.append(user_query)
     response = generate_answer(user_query, st.session_state.messages)
-    message(response, is_user=False, key=f"bot_response")  # Display bot response
+    
+    # Display bot response with custom class
+    message(response, is_user=False, key=f"bot_response", custom_css="bot-message")  
     st.session_state.messages.append(response)
