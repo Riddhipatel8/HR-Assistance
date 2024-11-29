@@ -62,24 +62,13 @@ st.markdown("""
         
         /* Custom styling for user input */
         .user-message {
-            font-family: 'Courier New', monospace;
-            font-size: 16px;
-            color: #1e90ff;
-            background-color: #f0f8ff;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
+            font-family: 'Courier New', monospace
         }
         
         /* Custom styling for bot response */
         .bot-message {
-            font-family: 'Times New Roman', serif;
-            font-size: 16px;
-            color: #32cd32;
+            font-family: 'Times New Roman', serif; 
             background-color: #e6ffe6;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
         }
     </style>
 """, unsafe_allow_html=True)
