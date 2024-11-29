@@ -1,6 +1,7 @@
 langchain
 faiss-cpu
 langchain-community
+
 transformers>=4.45.1
 sentence_transformers
 pypdf
