@@ -5,10 +5,9 @@ transformers>=4.45.1
 sentence_transformers
 pypdf
 langchain_huggingface
-groq
 langchain-core
 langchain_groq
 huggingface-hub
 streamlit
 streamlit-chat
-groqflow
+
