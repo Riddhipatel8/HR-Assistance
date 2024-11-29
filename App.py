@@ -19,8 +19,7 @@ groq_api_key = os.getenv('GROQ_API_KEY')
 
 # Pass the httpx client to the ChatGroq model
 llm = ChatGroq(groq_api_key=groq_api_key, 
-              model_name="llama3-8b-8192", 
-              http_client=client)
+              model_name="llama3-8b-8192")
 
 # Prompt Template for model
 from langchain_core.prompts import ChatPromptTemplate
