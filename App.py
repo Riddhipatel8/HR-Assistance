@@ -60,7 +60,6 @@ user_query = st.chat_input("your message")
 if user_query and isinstance(user_query, str):
     message(user_query, is_user=True)
     st.session_state.messages.append(user_query)
-    st.markdown(user_query)
     response = generate_answer(user_query, st.session_state.messages)
     message(response, is_user=False)
  
