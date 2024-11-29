@@ -1,4 +1,3 @@
-import httpx
 from langchain_community.vectorstores import FAISS
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -12,7 +11,6 @@ from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
 
 # Create an httpx client without proxies
-client = httpx.AsyncClient()
 
 load_dotenv()
 
