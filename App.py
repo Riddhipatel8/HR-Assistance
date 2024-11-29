@@ -11,8 +11,8 @@ from streamlit_chat import message
 from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
 
-# Create an httpx client with disabled proxies
-client = httpx.Client(proxies=None)
+# Create an httpx client without proxies
+client = httpx.Client()
 
 load_dotenv()
 
