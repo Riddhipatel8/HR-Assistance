@@ -1,7 +1,7 @@
-from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain-community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceBgeEmbeddings
+from langchain-community.vectorstores import FAISS
+from langchain-community.embeddings import HuggingFaceBgeEmbeddings
 from dotenv import load_dotenv
 load_dotenv()
 
