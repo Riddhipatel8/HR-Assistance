@@ -12,6 +12,7 @@ from streamlit_chat import message
 from langchain_core.prompts import MessagesPlaceholder
 load_dotenv()
 
+os.system("python Setup.py")
 
 embedding_model = HuggingFaceEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
