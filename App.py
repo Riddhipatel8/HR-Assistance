@@ -66,7 +66,7 @@ st.markdown(f"""
             background-color: #3399FF;
             padding: 10px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             display: inline-block; /* Shrinks background to text size */
             max-width: 80%; /* Prevents the message from stretching too wide */
             word-wrap: break-word; /* Ensures long words wrap to the next line */
