@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # pdf loading
-loader = PyPDFDirectoryLoader("./pdfs")
+loader = PyPDFDirectoryLoader("pdfs")
 documents = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size = 1500, chunk_overlap = 300)
 final_documents = text_splitter.split_documents(documents)
