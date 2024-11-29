@@ -78,15 +78,15 @@ if 'messages' not in st.session_state:
 
 for i, msg in enumerate(st.session_state.messages):
     if i % 2 == 0:
-        message(msg, is_user=True, key=f"user_{i}", avatar_style="circle", custom_css="user-message")
+        message(msg, is_user=True, key=f"user_{i}")  # Display user message
     else:
-        message(msg, is_user=False, key=f"bot_{i}", avatar_style="circle", custom_css="bot-message")
+        message(msg, is_user=False, key=f"bot_{i}")  # Display bot response
 
 # Get user input and generate the response
 user_query = st.chat_input("Your message")
 if user_query and isinstance(user_query, str):
-    message(user_query, is_user=True, key=f"user_input", avatar_style="circle", custom_css="user-message")
+    message(user_query, is_user=True, key=f"user_input")  # Display user input
     st.session_state.messages.append(user_query)
     response = generate_answer(user_query, st.session_state.messages)
-    message(response, is_user=False, key=f"bot_response", avatar_style="circle", custom_css="bot-message")
+    message(response, is_user=False, key=f"bot_response")  # Display bot response
     st.session_state.messages.append(response)
