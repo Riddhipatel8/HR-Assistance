@@ -12,7 +12,7 @@ from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
 
 # Create an httpx client without proxies
-client = httpx.Client()
+client = httpx.AsyncClient()
 
 load_dotenv()
 
