@@ -1,3 +1,4 @@
+import httpx
 from langchain_community.vectorstores import FAISS
 from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -6,11 +7,13 @@ import os
 import streamlit as st
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
 from streamlit_chat import message
 from langchain_core.prompts import MessagesPlaceholder
 from langchain_groq import ChatGroq
 
-# Create an httpx client without proxies
+# Create an httpx client with disabled proxies
+client = httpx.Client(proxies={})
 
 load_dotenv()
 
@@ -19,13 +22,14 @@ groq_api_key = os.getenv('GROQ_API_KEY')
 
 # Pass the httpx client to the ChatGroq model
 llm = ChatGroq(groq_api_key=groq_api_key, 
-              model_name="llama3-8b-8192")
+              model_name="llama3-8b-8192", 
+              http_client=client)
 
 # Prompt Template for model
 from langchain_core.prompts import ChatPromptTemplate
 
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "Answer the user's question based on the context: {context} and keep the answers concise"),
+    ("system", " Answer the user's question based on the context: {context} and keep the answers concise"),
     MessagesPlaceholder(variable_name="messages"),
     ("human", "{input}")
 ])
