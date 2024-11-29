@@ -13,6 +13,7 @@ streamlit-chat
 groq
 accelerate>=0.26.0
 torch
+httpx==0.24.0
 
 
 
