@@ -50,19 +50,23 @@ def generate_answer(user_input, messages):
 st.set_page_config(page_title="Chat Bot", page_icon="robot")
 st.title("Chatbot")
 
-# Add custom CSS for font styling
+# Add custom CSS for font styling, including Google Fonts
 st.markdown("""
     <style>
-        /* Set font for the entire page */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+        
+        /* Apply custom font globally */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
+        
         /* Style the user input text */
         .user-message {
             font-family: 'Courier New', monospace;
             font-size: 16px;
             color: #1e90ff;
         }
+        
         /* Style the bot response text */
         .bot-message {
             font-family: 'Times New Roman', serif;
